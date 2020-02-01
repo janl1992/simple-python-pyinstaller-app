@@ -33,10 +33,10 @@ pipeline {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python2'
+                    inside"""--entrypoint=''"""
                 }
             }
             steps {
-                docker.image('cdrx/pyinstaller-linux:python2').inside("""--entrypoint=''""") {}
                 sh 'pyinstaller --onefile sources/add2vals.py'
             }
             post {

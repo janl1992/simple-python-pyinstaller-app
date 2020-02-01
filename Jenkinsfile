@@ -30,15 +30,8 @@ pipeline {
             }
         }
         stage('Deliver') {
-            agent {
-                docker {
-                    image 'cdrx/pyinstaller-linux:python3'{
-                        inside"""--entrypoint='pyinstaller --onefile sources/add2vals.py'"""
-                    }
-                }
-            }
             steps {
-                sh 'pyinstaller --onefile sources/add2vals.py'
+                sh 'cd ./sources &&  docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux'
             }
             post {
                 success {

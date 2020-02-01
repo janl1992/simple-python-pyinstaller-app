@@ -33,7 +33,7 @@ pipeline {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python3'
-                    args  '-v $(pwd)/sources:/src/'
+                    args  "-v $(pwd)/sources:/src/"
                 }
             }
             steps {

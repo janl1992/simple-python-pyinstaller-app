@@ -30,11 +30,14 @@ pipeline {
             }
         }
         stage('Deliver') {
-            agent{
-                steps {
-                sh 'cd ./sources &&  docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux'
+            agent {
+                none {
+                    sh 'cd ./sources &&  docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux'
+                }
             }
-            }
+//             steps {
+//                 sh 'pyinstaller --onefile sources/add2vals.py'
+//             }
             post {
                 success {
                     archiveArtifacts 'dist/add2vals'

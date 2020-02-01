@@ -30,7 +30,7 @@ pipeline {
             }
         }
         stage('Deliver') {
-            steps {
+            agent{
                 sh 'cd ./sources &&  docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux'
             }
             post {

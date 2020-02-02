@@ -1,20 +1,39 @@
 pipeline {
-    agent any
-
+    agent none
+    options {
+        skipStagesAfterUnstable()
+    }
     stages {
+        stage('Deliver') {
+            agent {
+                any {
+                    sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux'
+                }
+            }
+        }
         stage('Build') {
+            agent {
+                docker {
+                    image 'python:2-alpine'
+                }
+            }
             steps {
-                sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux:latest'
+                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
             }
         }
         stage('Test') {
-            steps {
-                echo 'Testing..'
+            agent {
+                docker {
+                    image 'qnib/pytest'
+                }
             }
-        }
-        stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+            }
+            post {
+                always {
+                    junit 'test-reports/results.xml'
+                }
             }
         }
     }

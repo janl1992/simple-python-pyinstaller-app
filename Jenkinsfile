@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux:latest "pyinstaller --onefile add2vals.py"'
+                sh "docker run -v ${env.WORKSPACE}/sources:/src/ cdrx/pyinstaller-linux:latest pyinstaller --onefile add2vals.py"
             }
             post {
                 success {

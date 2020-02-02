@@ -16,7 +16,6 @@ pipeline {
                     junit 'test-reports/results.xml'
                 }
         }
-        }
         stage('Deploy') {
             steps {
                 sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux:latest "pyinstaller --onefile add2vals.py"'
@@ -28,4 +27,6 @@ pipeline {
                 }
             }
         }
+     }
+
 }

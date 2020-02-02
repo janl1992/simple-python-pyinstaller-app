@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker run -it --rm -v "$PWD":/var/jenkins_home/workspace/pythontespipeline -w /var/jenkins_home/workspace/pythontespipeline python:3-alpine python -m py_compile sources/add2vals.py sources/calc.py'
+                sh 'docker run --rm -v "$PWD":/var/jenkins_home/workspace/pythontespipeline -w /var/jenkins_home/workspace/pythontespipeline python:3-alpine python -m py_compile sources/add2vals.py sources/calc.py'
             }
         }
         stage('Test') {

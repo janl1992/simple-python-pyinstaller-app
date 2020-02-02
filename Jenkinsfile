@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "docker run --rm -v $PWD:/var/jenkins_home/workspace/${env.JOB_NAME} -w /var/jenkins_home/workspace/${env.JOB_NAME} python:3-alpine python -m py_compile sources/add2vals.py sources/calc.py"
+                sh "docker run --rm -v $PWD:${env.WORKSPACE} -w ${env.WORKSPACE} python:3-alpine python -m py_compile sources/add2vals.py sources/calc.py"
             }
         }
         stage('Test') {

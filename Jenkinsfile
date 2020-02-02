@@ -1,9 +1,8 @@
 pipeline {
     agent any
-
+    def jobbasename = ${env.JOB_BASE_NAME}
     stages {
         stage('Printtest') {
-            def jobbasename = ${env.JOB_BASE_NAME}
             steps {
                 echo '/var/jenkins_home/workspace/${jobbasename}'
             }

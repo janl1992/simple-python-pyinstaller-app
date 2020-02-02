@@ -10,6 +10,9 @@ pipeline {
                     sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux'
                 }
             }
+            steps{
+                sh 'test'
+            }
         }
         stage('Build') {
             agent {

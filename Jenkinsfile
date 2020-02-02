@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'docker run --rm -v "$PWD":/var/jenkins_home/workspace/pythontespipeline -w /var/jenkins_home/workspace/pythontespipeline/ qnib/pytest py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                sh "docker run --rm -v ${env.WORKSPACE}:${env.WORKSPACE} -w ${env.WORKSPACE} qnib/pytest py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py"
             }
             post {
                 always {

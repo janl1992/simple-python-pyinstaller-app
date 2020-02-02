@@ -1,10 +1,9 @@
 pipeline {
     agent any
-    def jobbasename = ${env.JOB_BASE_NAME}
     stages {
         stage('Printtest') {
             steps {
-                echo '/var/jenkins_home/workspace/${jobbasename}'
+                echo '/var/jenkins_home/workspace/${env.JOB_BASE_NAME}'
             }
         }
 //         stage('Build') {

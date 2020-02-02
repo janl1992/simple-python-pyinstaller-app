@@ -1,42 +1,25 @@
 pipeline {
-    agent none
-    options {
-        skipStagesAfterUnstable()
-    }
+    agent any
+
     stages {
-        stage('Deliver') {
-            agent {
-                any {
-                    sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux'
-                }
-            }
-            steps{
-                sh 'test'
-            }
-        }
         stage('Build') {
-            agent {
-                docker {
-                    image 'python:2-alpine'
-                }
-            }
             steps {
-                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+                sh 'docker run -it --rm -v "$PWD":/var/jenkins_home/workspace/pythontespipeline -w /var/jenkins_home/workspace/pythontespipeline python:3-alpine python -m py_compile sources/add2vals.py sources/calc.py'
             }
         }
         stage('Test') {
-            agent {
-                docker {
-                    image 'qnib/pytest'
-                }
-            }
             steps {
-                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                echo 'docker run -it --rm -v "$PWD":/var/jenkins_home/workspace/pythontespipeline -w /var/jenkins_home/workspace/pythontespipeline/ qnib/pytest py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
                 always {
                     junit 'test-reports/results.xml'
                 }
+        }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux:latest'
             }
         }
     }

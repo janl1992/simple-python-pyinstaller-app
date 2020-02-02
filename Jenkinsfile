@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Printtest') {
             steps {
-                echo '/var/jenkins_home/workspace/${env.JOB_BASE_NAME}'
+                echo '/var/jenkins_home/workspace/${env.JOB_NAME}'
             }
         }
 //         stage('Build') {

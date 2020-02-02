@@ -4,6 +4,19 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
+        stage('Deliver') {
+            node {
+                    sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux'
+            }
+            steps {
+                sh 'pyinstaller --onefile sources/add2vals.py'
+            }
+            post {
+                success {
+                    archiveArtifacts 'dist/add2vals'
+                }
+            }
+        }
         stage('Build') {
             agent {
                 docker {
@@ -26,21 +39,6 @@ pipeline {
             post {
                 always {
                     junit 'test-reports/results.xml'
-                }
-            }
-        }
-        stage('Deliver') {
-            agent {
-                none {
-                    sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux'
-                }
-            }
-            steps {
-                sh 'pyinstaller --onefile sources/add2vals.py'
-            }
-            post {
-                success {
-                    archiveArtifacts 'dist/add2vals'
                 }
             }
         }

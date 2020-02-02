@@ -15,17 +15,13 @@ pipeline {
                 always {
                     junit 'test-reports/results.xml'
                 }
+            }
         }
         stage('Deploy') {
             steps {
                 sh 'docker run -v "$(pwd)/sources:/src/" cdrx/pyinstaller-linux:latest "pyinstaller --onefile add2vals.py"'
             }
-            }
-            post {
-                success {
-                    archiveArtifacts 'sources/dist/add2vals'
-                }
-            }
+         }
         }
      }
 

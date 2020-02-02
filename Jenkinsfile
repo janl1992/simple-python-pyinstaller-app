@@ -3,8 +3,8 @@ pipeline {
 
     stages {
         stage('Printtest') {
+            def jobbasename = ${env.JOB_BASE_NAME}
             steps {
-                def jobbasename = ${env.JOB_BASE_NAME}
                 echo '/var/jenkins_home/workspace/${jobbasename}'
             }
         }

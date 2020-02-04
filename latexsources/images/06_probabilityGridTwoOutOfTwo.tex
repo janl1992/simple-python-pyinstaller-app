@@ -1,0 +1,31 @@
+\hspace{-57pt}
+\begin{tikzpicture}[every node/.style={anchor=center,text depth=.5ex,text height=2ex,text width=1em}]
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm}, column sep=-\pgflinewidth]{
+    $\times$ & $\checkmark$ & $\checkmark$\\
+    $\times$ & $\times$ & $\checkmark$\\
+    $\times$ & $\times$ & $\times$\\};
+    \path [] (A-1-1.north)--++(90:0.5mm) node[above] {$1$};
+    \path [] (A-1-2.north)--++(90:0.5mm) node[above] {$2$};
+    \path [] (A-1-3.north)--++(90:0.5mm) node[above] {$3$};
+    \path [] (A-1-1.west)--++(90:0.5mm) node[left] {$1$};
+    \path [] (A-2-1.west)--++(90:0.5mm) node[left](two) {$2$};
+    \path [] (A-3-1.west)--++(90:0.5mm) node[left] {$3$};
+    \node (N1)[left=of two, minimum width=3mm] {$\rightarrow$};
+    %        \begin{scope}[node distance=2mm and 2mm]
+    \matrix (B) [matrix of nodes, nodes={draw, minimum width= 11mm}, left=of N1]{$1\text{:}A$& $2\text{:}B$&$3\text{:}C$\\};
+    %        \end{scope}
+    \node (N2)[left=of B, minimum width=3mm] {$\rightarrow$};
+    \node (C)[left=of N2, minimum width=45mm] {$P(A~\cup~B~\cup~C)$};
+    \matrix (A1) [matrix of nodes, nodes={draw, minimum size=8mm}, column sep=-\pgflinewidth, above=of A]{
+    $\times$ & $\checkmark$\\
+    $\times$ & $\times$\\};
+    \path [] (A1-1-1.north)--++(90:0.5mm) node[above] {$1$};
+    \path [] (A1-1-2.north)--++(90:0.5mm) node[above] {$2$};
+    \path [] (A1-1-1.west)--++(90:0.5mm) node[left] {$1$};
+    \path [] (A1-1-1.south west)--++(90:0.5mm) node[left](dummynode) {};
+    \path [] (A1-2-1.west)--++(90:0.5mm) node[left] {$2$};
+    \node (N11)[left=of dummynode] {$\rightarrow$};
+    \matrix (B1) [matrix of nodes, nodes={draw, minimum width= 11mm}, left=of N11]{$1\text{:}A$& $2\text{:}B$\\};
+    \node (N2)[left=of B1] {$\rightarrow$};
+    \node (C1)[left=of N2, minimum width=30mm] {$P(A~\cup~B)$};
+\end{tikzpicture}

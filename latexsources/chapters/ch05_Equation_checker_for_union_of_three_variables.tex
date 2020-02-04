@@ -1,0 +1,75 @@
+%!TEX root = ../report.tex
+
+\begin{document}
+    \pgfmathdeclarefunction{gauss}{3}{%
+  \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+\chapter{Equation checker for union of three variables}
+    At this point, the equation checker operates on two random variables. To provide further variations of mathematical proofs, it is necessary to validate the
+    correctness of mathematical operations which operates on more than two random variables. In Eq.~\eqref{eq:17} the union of three random variables can be seen:
+    \begin{IEEEeqnarray*}{rCl}
+        P(W \cup S \cup T)&=&P(W) + P(S) + P(T) - P(W \cap S) - P(W \cap T) \IEEEyesnumber \label{eq:17}  \\
+                          && -\> P(S \cap T) + P(W \cap S \cap T) \\
+    \end{IEEEeqnarray*}
+    \section{Intersection two out of three random variables}
+    In order to enable the equation checker to verify this deduction the approach from Chapter \ref{bayestheoremfiniterandomvariables} needs to be extended. Initially the equation
+    checker must be able to handle the intersection between two out of three random variables. All the intersections of the three random variables are shown below:
+    \begin{itemize}
+        \item $P(W \cap S)$
+        \item $P(W \cap T)$
+        \item $P(S \cap T)$
+    \end{itemize}
+    Here the intersections no longer operate on the 2-dimensional grid shown in Fig.~\ref{fig:Probability for two random variables}. Instead, they operate on a
+    3-dimensional grid (Fig.~\ref{fig:Probability for three random variables}).
+    \tdplotsetmaincoords{60}{125}
+    \tdplotsetrotatedcoords{0}{0}{0}
+    \begin{figure}[H]
+        \input{./images/05_probabilityGridTwoOutOfThreeRV.tex}
+        \caption{Probability inside a grid when three random variables are given}
+        \caption*{This figure shows the probability within a grid when three random variables are given. The black dots inside the 2 dimensional rectangles show the total number of two events happening
+        at the same time.}
+
+        \label{fig:Probability for three random variables}
+    \end{figure}
+    The total number of instances of $W, S, T$ is written as $N$. The number of instances where
+    \begin{itemize}
+        \item $T = t_{t}$ and $S = s_{s}$ is denoted by $p_{st}$
+        \item $T = t_{t}$ and $W = w_{w}$ is denoted by $o_{wt}$
+        \item $W = w_{w}$ and $S = s_{s}$ is denoted by $q_{ws}$
+    \end{itemize}
+    The probability that two events happen at the same time (which is equal to the intersection of two random variables) is calculated by the number of instances of the
+    corresponding two random variables divided by the total number of instances $N$. This can be seen in Eq.~\eqref{eq:18} to \eqref{eq:20}:
+    \begin{IEEEeqnarray*}{rCl}
+        P(S \cap T) = \frac{p_{st}}{N} \IEEEyesnumber \label{eq:18} \\ \\
+        P(W \cap T) = \frac{o_{wt}}{N} \IEEEyesnumber \label{eq:19} \\ \\
+        P(W \cap S) = \frac{q_{ws}}{N} \IEEEyesnumber \label{eq:20}
+    \end{IEEEeqnarray*}
+    At this point the corresponding mapping entries for the intersection of two random variables can be passed on to Sympy. However, a mapping entry for the intersection of three variables is still
+    missing.
+    \section{Intersection three random variables}
+    In order to explain the intersection inside the 3-dimensional grid the author extends the idea for joint probability of two variables inside a 2-dimensional grid to the three dimensional grid. The
+    probability that two events happen at the same time (= joint probability ) "is given by the number of points falling in the cell i,j as a fraction of the total number of points"\cite[p.~13]
+    {bishop2006pattern}
+    , see here Equation \eqref{eq:5}. The counter denotes the number of points in cell $i,j$, the denominator represents the total number of instances $N$.
+    When increasing the dimension from two to three, the cell becomes a cube which represents the number of events for three random variables. A new variable $z$ is introduced to represent these events:
+    \begin{IEEEeqnarray*}{rCl}
+        P(W \cup S \cup T)&=&P(W \cap S) \cdot P(T|W \cap S) \IEEEyesnumber \label{eq:21} \\
+                          &=&\frac{q_{ws}}{N} \cdot \frac{z}{q_{ws}} \\
+                          &=&\frac{z}{N}
+    \end{IEEEeqnarray*}
+    As can be seen from Eq.~\eqref{eq:21} the denominator of the second factor is canceled out by the counter of the first factor which means that the random variables can be indiscriminantely intersected. The counter of the first factor and the denominator of the second factor will always cancel out
+    the number of events of the intersection of the two random variables. Therefore the union of three random variables is mapped on to the discrete probability $\frac{z}{N}$.
+    \section{Combining the intersections}
+    In this section the ideas from the two previous chapters are combined. The probability for one random variable is shown in Eq.~\eqref{eq:1}, for two random variables in Equation \ref{eq:18} to \ref{eq:20}, for three random variables in Eq.
+    \eqref{eq:21}. The union of these probabilities can be seen in Eq.~\eqref{eq:22}:
+    \begin{IEEEeqnarray*}{rCl}
+        P(W \cup S \cup T)&=&\frac{r}{N} + \frac{c}{N} + \frac{p}{N} - \frac{p_{st}}{c}*\frac{c}{N} - \frac{o_{wt}}{p}*\frac{p}{N} - \frac{q_{ws}}{p}*\frac{p}{N} + \frac{z}{N} \IEEEyesnumber \label{eq:22} \\ \\
+                          &=&\frac{r}{N} + \frac{c}{N} + \frac{p}{N} - \frac{p_{st}}{N} - \frac{o_{wt}}{N} - \frac{q_{ws}}{N} + \frac{z}{N} \\ \\
+    \end{IEEEeqnarray*}
+    \begin{figure}[H]
+        \input{./images/05_probabilityGridThreeOutOfThreeRV.tex}
+        \caption{Probability for intersection of three random variables}
+        \caption*{Here the number of events inside the squares of the rectangles of the second dimension and the number of total events $N$ form the probability of the intersection of two random variables.
+        All points inside the red cube form z. The probability of the intersection of three random variables is calculated by $\frac{z}{N}$ } \label{fig:Probability for three random variables with z}
+    \end{figure}
+\end{document}

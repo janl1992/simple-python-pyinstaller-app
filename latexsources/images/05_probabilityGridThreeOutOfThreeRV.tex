@@ -1,0 +1,62 @@
+\tdplotsetmaincoords{60}{125}
+\tdplotsetrotatedcoords{0}{0}{0}
+\newcommand{\dimension}{2}
+    \begin{center}
+        \resizebox{!}{76mm}{
+        \begin{tikzpicture}[scale=3,tdplot_rotated_coords,
+                        cube/.style={very thick,black},
+                        grid/.style={very thin,gray},
+                        axis/.style={->,blue,ultra thick},
+                        rotated axis/.style={->,purple,ultra thick},
+                        declare function={a(\x)=(\x/4)^2;},
+                        declare function={b(\x)=-(\x/4)^2-1;},
+                        declare function={f(\x) = 2*sqrt(2)*rad(atan(\x/(2*sqrt(2))))*5/2.99;}
+                        ]
+        \draw [-] (0,0,0) -- (\dimension,0,0) node [at end, right] {};
+        \draw [-] (0,0,0) -- (0,\dimension,0) node [at end, left] {};
+        \draw [-] (0,0,0) -- (0,0,\dimension) node [at end, left] {};
+        \foreach \y in {0,1,...,\dimension}
+            \draw[-] (0,0,\y) -- (3,0,\y);
+        \foreach \y in {0,1,...,3}
+            \draw[-] (\y,0,0) -- (\y,0,\dimension);
+
+        \foreach \x in {0,1,...,\dimension}
+            \draw[-] (0,\x,0) -- (3,\x,0);
+        \foreach \x in {0,1,...,3}
+            \draw[-] (\x,0,0) -- (\x,\dimension,0);
+        \foreach \z in {0,1,...,\dimension}
+            \draw[-] (0,0,\z) -- (0,\dimension,\z);
+       \foreach \z in {0,1,...,\dimension}
+            \draw[-] (0,\z,0) -- (0,\z,\dimension);
+        \draw[red, dotted, very thick] (1,0,1) -- (1,1,1);
+        \draw[red, dotted, very thick] (1,0,1) -- (1,0,0);
+        \draw[red, dotted, very thick] (0,1,1) -- (1,1,1);
+        \draw[red, dotted, very thick] (0,1,1) -- (0,0,1);
+        \draw[red, dotted, very thick] (0,0,1) -- (1,0,1);
+        \draw[red, dotted, very thick] (0,0,1) -- (0,0,0);
+        \draw[red, dotted, very thick] (1,1,1) -- (1,1,0);
+        \draw[red, dotted, very thick] (1,1,0) -- (1,0,0);
+        \draw[red, dotted, very thick] (1,1,0) -- (0,1,0);
+        \draw[red, dotted, very thick] (0,1,1) -- (0,1,0);
+        \draw[red, dotted, very thick] (0,1,0) -- (0,0,0);
+        \draw[red, dotted, very thick] (1,0,0) -- (0,0,0);
+        \draw plot [only marks, mark=*, mark size=0.3, domain=-0.3:0.8, samples=50] ({f(\x)}, {0.5*(a(\x)+b(\x)) + rand * ( a(f(\x)) - b(f(\x))) / 2});
+        \draw plot [only marks, mark=*, mark size=0.3, domain=-0.3:0.8, samples=50] ({f(\x)}, {0.5*(a(\x)+b(\x)) + rand * ( a(f(\x)) - b(f(\x))) / 2});
+        \draw plot [only marks, mark=*, mark size=0.3, domain=-0.3:0.8, samples=50] (\x,{rnd*1.25-0.5/2*2*\x+0.5});
+        \draw plot [only marks, mark=*, mark size=0.3, domain=2.5:0.4, samples=50] (\x,{rnd*1.25-0.5/2*2*\x+0.8});
+
+        \filldraw (0,1.1,2.4) node [] {\rotatebox{343}{$P(W \cap T)$}};
+        \draw[>=triangle 45, <->] (0,0.1,2.2) -- (0,2.0,2.2);
+        \filldraw (1.5,2.5,0) node [] {\rotatebox{41}{$P(S \cap T)$}};
+        \draw[>=triangle 45, <->] (0.2,0.0,2.2) -- (3.1,0,2.2);
+        \draw[>=triangle 45, <->] (0.2,2.2,0) -- (3.1,2.2,0);
+        \filldraw (1.6,0,2.4) node [] {\rotatebox{34}{$P(W \cap S)$}};
+        \filldraw (0,0,2.2) node [] {$W$};
+        \filldraw (0,2.2,0) node [] {$T$};
+        \filldraw (3.2,0,0) node [] {$S$};
+        \filldraw (2.5,0,1.5) node [] {\rotatebox{34}{$\frac{q_{ws}}{N}$}};
+        \filldraw (0,1.5,1.5) node [] {\rotatebox{343}{$\frac{o_{wt}}{N}$}};
+        \filldraw (2.5,1.5,0) node [] {\rotatebox{41}{$\frac{p_{st}}{N}$}};
+        \end{tikzpicture}
+        }
+    \end{center}

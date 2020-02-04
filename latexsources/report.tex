@@ -1,0 +1,104 @@
+%
+% LaTeX2e Style for MAS R&D and master thesis reports
+% Author: Argentina Ortega Sainz, Hochschule Bonn-Rhein-Sieg, Germany
+% Please feel free to send issues, suggestions or pull requests to:
+% https://github.com/mas-group/project-report
+% Based on the template created by Ronni Hartanto in 2003
+%
+
+\documentclass[rnd]{mas_report}
+\usepackage{IEEEtrantools}
+\usepackage{acronym}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{afterpage}
+\usetikzlibrary{snakes,arrows,shapes,positioning,matrix, arrows.meta, shapes.geometric}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{lstautogobble}
+\usepackage{relsize}
+% \documentclass[rnd]{mas_report}
+
+% ****************************************************
+% THIS INFORMATION SHOULD BE UPDATED FOR YOUR REPORT
+% ****************************************************
+\author{Jan Lukas Löffelsender}
+\title{A checker of sequences of equivalence transformations for a given step-by-step proof}
+\supervisors{%
+Prof. Dr. Paul Gerhard Plöger\\
+M. Sc. Tim Metzler
+}
+\date{January 2020}
+% \thirdpartylogo{path/to/your/image}
+
+\begin{document}
+\frontmatter
+
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	PREFACE
+%----------------------------------------------------------------------------------------
+\pagestyle{plain}
+\cleardoublepage
+\statementpage
+\let\cleardoublepage\clearpage
+\subfile{chapters/abstract}
+%\subfile{chapters/acknowledgment}
+\let\cleardoublepage\clearpage
+\tableofcontents
+\let\cleardoublepage\clearpage
+\listoffigures
+\let\cleardoublepage\clearpage
+\lstlistoflistings
+\let\cleardoublepage\clearpage
+\listoftables
+\newpage
+\thispagestyle{plain} % empty
+\mbox{}
+%\null
+%-------------------------------------------------------------------------------
+%	CONTENT CHAPTERS
+%-------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+\pagestyle{mainmatter}
+\subfile{chapters/ch01_introduction}
+\let\cleardoublepage\clearpage
+\subfile{chapters/ch02_stateoftheart}
+\let\cleardoublepage\clearpage
+\subfile{chapters/ch03_equationchecking_with_sympy}
+\let\cleardoublepage\clearpage
+\subfile{chapters/ch04_Equation_checking_using_finite_random_variables}
+\let\cleardoublepage\clearpage
+\subfile{chapters/ch05_Equation_checker_for_union_of_three_variables}
+\let\cleardoublepage\clearpage
+\subfile{chapters/ch06_Equation_checker_for_union_of_arbitrary_random_variables}
+\let\cleardoublepage\clearpage
+\subfile{chapters/ch07_Four_Field}
+\let\cleardoublepage\clearpage
+\subfile{chapters/ch08_Conclusion}
+\let\cleardoublepage\clearpage
+\subfile{chapters/abbreviations}
+%-------------------------------------------------------------------------------
+%	APPENDICES
+%-------------------------------------------------------------------------------
+\begin{appendices}
+    \subfile{chapters/appendix}
+\end{appendices}
+
+\backmatter
+
+%-------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%-------------------------------------------------------------------------------
+\addcontentsline{toc}{chapter}{References}
+\bibliographystyle{plainnat} % Use the plainnat bibliography style
+\bibliography{bibliography.bib} % Use the bibliography.bib file as the source of references
+
+\end{document}

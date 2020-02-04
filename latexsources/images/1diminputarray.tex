@@ -1,0 +1,31 @@
+\usetikzlibrary{matrix}
+        \begin{tikzpicture}[->]
+            \tikzset{square matrix/.style={
+                matrix of nodes,
+                column sep=-\pgflinewidth, row sep=-\pgflinewidth,
+                nodes={draw,
+                  minimum height=#1,
+                  anchor=center,
+                  text width=#1,
+                  align=center,
+                  inner sep=0pt
+                },
+              },
+              square matrix/.default=1.45cm
+            }
+              border/.style={draw}
+
+              \matrix(vector)[square matrix]
+              {
+                  $i_{0}$\\
+                  $i_{1}$\\
+                  $\vdots$\\
+                  $i_{7}$\\
+              };
+            \node(eq0) [left] at (-3,-0.2) {$P(W|S)$};
+            \path[every node/.style={font=\sffamily\small}]
+                (vector-1-1) edge[bend right] node [left] {} (eq0);
+%                (vector-2-1) edge[bend right] node [left] {} (eq0)
+%                (vector-3-1) edge[bend left] node [left] {} (eq0)
+%                (vector-4-1) edge[bend left] node [left] {} (eq0);
+        \end{tikzpicture}

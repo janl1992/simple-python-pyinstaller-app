@@ -1,0 +1,102 @@
+%!TEX root = ../report.tex
+
+\begin{document}
+    %! Author = janloeffelsender
+    %! Date = 2019-07-13
+    \definecolor{eclipseGreen}{RGB}{63,127,95}
+    \definecolor{mypurple}{RGB}{102,0,153}
+    \definecolor{pythongreen}{rgb}{0,128,128}
+    \definecolor{pythonblue}{rgb}{0,0,128}
+    \newcommand{\lstsetisabelle}{
+    \lstset{
+    language=Python,
+    breaklines=true,
+    commentstyle=\textit,
+%    keywordstyle=\color{pythonblue},
+%    keywordstyle=[2]{\color{mypurple}},
+    basicstyle=\ttfamily,
+%    stringstyle=\color{pythongreen},
+    showstringspaces=false,
+    frame=single,
+    captionpos=b,
+    morekeywords = [2]{local_dict, global_dict, evaluate},
+    autogobble=true,
+    %linewidth=\textwidth,captionpos=b
+    numbers=left
+    }
+    }
+    \chapter{State of the art equation checker}
+    Today equation checkers are offered in two variations.
+    On the one hand, there are the \ac{CAS} which when sophisticated enough provide a toolset for making symbolic computation and computer algebra. "By symbolic computation we
+    mean computation with expression trees, or terms representing mathematical objects. In these trees may appear symbols denoting operations such as $"+", \times$ or "sin"
+    , numbers and variables. Computation consists of combining or transforming these trees [...] By "computer algebra" we mean computation using the arithmetic from particular
+    algebraic constructions. The values used are elements of mathematically defined sets, such as polynomial rings, algebraic extensions, quotients and so on"\cite[p.~1]{watt2006making}.
+    \ac{CAS} provide functions to check for the equality of two equations. However, \ac{CAS} have no pre-built function to check whether mathematical proof consisting
+    of more than one step is correct. \\
+    On the other hand, there are \ac{AAS} (e.g. Stack or AiM)
+    which offer the creation of scientifical assignment as a core feature. They are underpinned by a \ac{CAS} which in some \ac{AAS} is open-source (e.g. Stack uses
+    as \ac{CAS} Maxima which is free) and in others is not (e.g. AiM uses as \ac{CAS} Maple which is a commercial \ac{CAS} )\cite[p.~1]{keady2012computer}.
+    \section{Stack}
+    "STACK is the world-leading open-source(GPL) automatic assessment system for mathematics, science and related disciplines."\footnote{\url{https://stack2.maths.ed.ac.uk/demo2018/question/type/stack/doc/doc.php/}(visited on 23th October 2019)}.
+    It uses computer algebra to support electronic assessment by establishing mathematical properties of the student's input and to check
+    whether his answer is algebraicallly equivalent to the correct answer \cite[~p.213]{sangwin2017asymmetry}. STACK version 1.0 was developed by Chris Sangwin at the University
+    of Birmingham in 2005. The current stable version is 4.2.1 \footnote{\url{https://stack2.maths.ed.ac.uk/demo2018/question/type/stack/doc/doc.php/Developer/Development_history.md}(visited on 23th October 2019)}.
+    Stack has provided an equation checker since Version 3.6 which is currently being developed.
+    However, this equation checker can only handle the following three types of equations\footnote{\url{https://stack2.maths.ed.ac.uk/demo2018/question/type/stack/doc/doc.php/CAS/Equivalence_reasoning.md}(visited on 23th October 2019)}:
+    \begin{itemize}
+        \item basic single variable polynomials
+        \item very simple inequalities
+        \item simple simultaneous equations
+    \end{itemize}
+    None of these three types fulfills the requirement to validate the proof given in Eq.~\eqref{eq:0} as its equations are located in the set and probability
+    domain.
+    \section{Isabelle}
+    Isabelle is neither a Computer Algebra System nor an AAS. It "is a generic system for implementing logical formalisms, and Isabelle/HOL is the specialization of Isabelle for HOL, which abbreviates Higher-Order Logic"\cite[p.~3]{Nipkow-Paulson-Wenzel:2019}. Isabelle is a functional programming language
+    and it is implemented in Standard ML \cite[p.~3]{Nipkow-Paulson-Wenzel:2019}. It provides the user with a tool with which the users can chain natural-deduction rules \cite[p.~3]{wenzel2002isabelle}. Isabelle uses theories in order to structure the proofs. "A theory
+    is a named collection of types, functions, and theorems, much like a module in a programming language"\cite[p.~4]{Nipkow-Paulson-Wenzel:2019}. In order to prove a theory, one or several subgoals must be validated \cite[p.~12]{Nipkow-Paulson-Wenzel:2019}.
+    Isabelle relies on logical formalisms for solving specification and verification tasks\cite[p.~3]{Nipkow-Paulson-Wenzel:2019}. So in order to validate Eq.~\eqref{eq:0}, the equations must be translated into logical a formalism.
+    In addition that Isabelle uses a syntax similar to ML or Haskell for modeling proofs. However, the current infrastructure does not use these programming languages and the students would have to learn one of these languages in order to code their assignments.
+    Therefore, Isabelle cannot be easily integrated into the current infrastructure. An example of Isabelle can be seen in Listing \ref{isabelleexample}.
+    \lstsetisabelle
+    \input{./images/02_isabelleexample.tex}
+    \newpage
+    \section{Sympy}
+    Sympy is a computation library for mathematics which is entirely written in Python and is a full-featured \ac{CAS}\cite[p.~2]{Meurer2017a}.
+    It is licensed under the "modified BSD" license \cite[p.~225]{10.1145/2110170.2110185} and over 100 developers
+    contribute to it \cite[p.~226]{10.1145/2110170.2110185}. Sympy has got integrated latex rendering \cite[p.~226]{10.1145/2110170.2110185} and
+    provides the function symplify for checking the equality of two equations \footnote{\url{https://docs.sympy.org/1.5.1/gotchas.html?highlight=simplify\#module-sympy.simplify.simplify}}\\
+    Similar to other \ac{CAS}, Sympy stores mathematical expressions in an expression trees. This is a data structure which is used when doing symbolic
+    computation \cite[p.18]{Meurer2017a}.
+    \begin{figure}[h]
+        \centering
+        \input{./images/02_exampleExpressionTree.tex}
+        \caption{Example of an expression tree}
+        \caption*{Here an example of an expression tree is shown. The mathematical expression $x+y$ is translated into a tree with three nodes $+$,$x$ and $y$}
+    \end{figure}
+    Sympy has got two advantages over the other approaches. It has got a built-in Python and Latex support. Until now the students at HBRS have coded their assignments in Jupyter
+    notebooks which rely on Python. In order to formulate their equations, the students can use Latex, which they are familiar with. Due to the built-in Latex
+    support, the input can be easily translated into the Sympy expression tree. For these reasons, the author decided to use Sympy to implement the equation checker.
+    \begin{table*}[h]\centering
+        \begin{tikzpicture}
+            \clip node (m) [matrix,matrix of nodes,
+            fill=black!20,inner sep=0pt,
+            nodes in empty cells,
+            nodes={minimum height=1.5cm,minimum width=3.6cm,anchor=east,outer sep=0,font=\sffamily},
+            row 1/.style={nodes={fill=black,text=white}},
+            %row 2/.style={nodes={fill=gray,text=white}},
+            column 1/.style={nodes={fill=gray,text=white,align=center,text width=2.5cm,text depth=0.5ex}},
+            column 2/.style={text width=4cm,align=center,every even row/.style={nodes={fill=white}}},
+            column 3/.style={text width=3cm,align=center,every even row/.style={nodes={fill=white}},},
+            column 4/.style={text width=3cm,align=center,every even row/.style={nodes={fill=white}},},
+            %row 1 column 1/.style={nodes={fill=gray}},
+            prefix after command={[rounded corners=4mm] (m.north east) rectangle (m.south west)}
+            ] {
+                            & Sympy                     & Isabelle & Stack \\
+            Programming language     & Python & Standard ML & Maxima \\
+            Equation checking      & $\times$ & $\times$ & $\checkmark$ \\
+            {Simple \\ integration}       & $\checkmark$ & $\times$ & $\times$ \\
+            };
+        \end{tikzpicture}
+    \caption{Comparison of frameworks described in this chapter}
+    \end{table*}
+\end{document}

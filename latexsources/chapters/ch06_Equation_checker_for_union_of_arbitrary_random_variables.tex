@@ -1,0 +1,62 @@
+%!TEX root = ../report.tex
+
+\begin{document}
+    \chapter{Equation checker for union of many arbitrary random variables}
+        The concept described in the previous section is extended here to many arbitrary random variables in order to provide supervisors with more flexibility when creating assignments. In order to enable the equation checker to validate any union of random variables,
+        the inclusion-exclusion principle is used. It is shown in Eq.~\eqref{eq:23}.
+            \begin{IEEEeqnarray*}{rCl}
+                \mathbb{P} \bigg ( \bigcup_{i=1}^{n}A_{i} \bigg ) &=& \sum_{k=1}^{n} \Bigg ( \big ( -1 \big )^{k-1} \sum_{\substack{I \subseteq \{1,...,n\}\\ |I|=k}} \mathbb{P}\big ( A_{I} \big ) \Bigg ) \IEEEyesnumber \label{eq:23} \\
+                A_{I} :&=& \bigcap_{i \in I} A_{i}
+                \sum_{\substack{I \subseteq \{1,...,n\}\\ |I|=k}} \mathbb{P}\big ( A_{I} \big ) \IEEEyesnumber \label{eq:24}
+            \end{IEEEeqnarray*}
+        In Eq.~\eqref{eq:23} $n$ denotes the number of random variables. Eq.~\eqref{eq:24} indicates which subsets to draw from the set of all random variables (all subsets which have cardinality $k$).
+        Eq.~\eqref{eq:17} is an application of Eq.~\eqref{eq:23}. When implementing Eq.~\eqref{eq:23} the main challenge is to determine Eq.~\eqref{eq:24} depending on the input.
+        This can be divided into several ordered sub-tasks:
+        \begin{enumerate}
+            \item In order to determine all probabilities of subsets given in Eq.~\eqref{eq:24} every combination of random variables is put into a $k$-dimensional grid with equal width and height. Here $k$ depends
+            on the cardinality $|I|$ of the subset (compare Fig.~\ref{intersectionofvariablesinsideagrid}, ~\ref{intersectionofvariablesinsideacube}).
+            \item From this grid, every set of indices that lies to the top right of the trace of the matrice is used in order to generate regular expressions that map from the probabilities $P()$ to the discrete values (compare Fig.~\ref{intersectionofvariablesinsideagrid}).This
+            mapping is stored in a hashmap. The keys of the hashmap consist of the regular expressions, the value of the hashmap represent the discrete values of the corresponding probabilities.
+            \item In order to guarantee that the random variables of the current intersections are interchangeable, a mapping entry for every permutation of these variables is created (e.g. intersection $P(A \cap B)$ needs a mapping entry for $P(A \cap B)$ and a mapping entry for
+            $P(B \cap A)$). All these mapping entries are stored in the hashmap, described in Step 2.
+            \item Due to the constraint that Sympy needs to be aware of the discrete variables which are used inside the mapped input a new hashmap is introduced. Every entry in the
+            hashmap has the discretized random variable as its key. As value it has the corresponding Sympy Symbols.
+            \item The probabilities in the input are replaced with the corresponding probabilities by using the hashmap which was created in Step 3 and 4. The symbols which are used for the discretized random variables and the mapped input are passed
+            on to the parse\char`_expression function of Sympy. This transforms the input into the Sympy expression tree (compare Fig.\ref{mappinginputexpressiontree}).
+            \item The transformed input is subtracted from the initial equation. The result is passed on to the Sympy function simplify. If it returns 0 the transformation was
+            correct (compare Listing \ref{equationcheck})
+        \end{enumerate}
+        \begin{center}
+        \begin{figure}[H]
+            \input{./images/06_probabilityGridTwoOutOfTwo.tex}
+            \caption{Extracting all intersections from a $2$-dimensional grid}
+            \caption*{The following steps are necessary in order to extract all intersections of random variables. In the first step all random variables which lie inside $P$
+            are extracted. These variables are assigned to an index. This index is used in order to map from a k-dimensional array to the random variable.
+            The indices of the grid represent every possible intersection of the subset with cardinality $|I| = k$ (in this figure $k=2$). The tuples of indices for the intersections which are used for calculating the union of $n$ random variables lie to the top right of the trace of the matrice.
+            These are marked with a $\checkmark$. In this example the tuples for $P(A \cup B \cup C)$ are $\langle 1,2 \rangle$, $\langle 1,3 \rangle$, $\langle 2,3 \rangle$.
+            Tuples that are not relevant for the intersection are marked with a $\times$. All tuples of indices marked with a $\checkmark$ are used in order to draw the corresponding random variables from the hashmap.}
+        \label{intersectionofvariablesinsideagrid}
+        \end{figure}
+        \end{center}
+        \begin{center}
+        \begin{figure}[H]
+            \input{./images/06_probabilityCubeThreeOutOfThreeRV.tex}
+            \caption{Extracting all intersections from a $3$-dimensional grid}
+            \caption*{This figure shows the cube which is constructed in order to filter the indices which are necessary for mapping the intersection of three random variables to discrete probabilities.
+            The indices of the grid represent every possible intersection of the random variables of the subset with cardinality $|I| = k$ (in this figure $k=3$). The algorithm returns all permutations of a triple containing
+            three different indices for three random variables. The $\checkmark$ and the red dotted lines illustrate the cube which can be constructed using the three indices that form this triple.
+            All permutations for this intersection are created using this triple.}
+            \label{intersectionofvariablesinsideacube}
+        \end{figure}
+        \end{center}
+        \begin{figure}
+            \input{./images/06_transformationUnionTwoRVIntoSympyET.tex}
+            \caption{Transformation of the union of two random variables into the Sympy expression tree}
+            \caption*{Here the mapping of the input of one cell entry from the grid (see Fig.~\ref{fig:GridWithSolution}) into the Sympy expression tree can be seen. The entered equation is translated
+            into a format which Sympy can process by using a hashmap which contains an entry for every summand of the initial equation. This includes all possible permutation of intersections. In this
+            example these are $P(A \cap B)$ and $P(B \cap A)$. The translated equation is shown in the row 'Mapped equation'. This can be parsed into the Sympy expression tree using
+            Sympy's parse\char`_expr function. As soon as the entered equation is transformed into the Sympy expression tree, this equation can be compared with the initial equation
+            by using the simplify function (see Listing \ref{equationcheck})}
+            \label{mappinginputexpressiontree}
+        \end{figure}
+\end{document}

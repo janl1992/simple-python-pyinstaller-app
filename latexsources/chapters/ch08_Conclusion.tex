@@ -1,0 +1,20 @@
+%!TEX root = ../report.tex
+\begin{document}
+    \chapter{Conclusion}
+    In this project, a checker of sequences of equivalence transformations for a given step-by-step proof was implemented. Sympy was used for this task.
+    The first approach was implemented by using standard Sympy functions like 'Die' and 'where'. However, this only guarantees the correctness of the mathematical transformation
+    for the probabilities which are calculated by the Die function. Another approach is therefore necessary. The second approach maps all probabilities of random variables
+    on to discrete probabilities. In this way, the equation check is no longer limited to the domain of the fair six-sided die.
+    Based on the idea of using discrete probabilities the equation checker is extended to validate whether the union of many arbitrary random variables was transformed correctly.
+    Due to the limitation of the assignments that have been created until now, a new approach is introduced here. This focuses on two random variables that are independent of each other and which are put into a contingency table.
+    From one field of this table, it is possible to conclude that the random variables in the adjacent fields are also independent. In this way, a variety of assignments can be created.
+    All equation checkers can recognize whether the step-by-step proofs are correct or not. However, there are some weaknesses when reasoning whether a mathematical transformation is correct or not. Each of these equation checker,
+    needs to be aware of every possible fraction of the equation which can be inserted into the input field. This is due to the concept that an entry is mapped on to a discrete probability. If there is no mapping entry for the input, the equation
+    checker is not able to map the input on to this discrete probability. However, when the mathematical proof becomes more complex the number of possible inputs and solutions increases. In order to verify every possible solution,
+    many mapping entries must be created. Another weakness is that each equation checker is tailored to the proof it must validate. The equation checker for Eq.~\eqref{eq:0} extracts the input string in a different way to the equation checker for
+    the union operator. In order to validate the correctness of the mathematical transformation of the union operator, a $k$-dimensional grid is constructed. This is not necessary when validating whether the conclusions inside
+    the contingency tables are valid or not. Combining these concepts and finding an universal equation checker would be a topic of further research. In addition, there are further limitations. There is no lower or upper bound for the
+    number of steps the student is allowed to use. The student could enter the final result into the first input field and the equation checker would mark the result as correct. Until now there is no validation whether the student carried out a deduction or not. Moreover,
+    the input transformation is very limited. The input has to match pre-defined regular expressions for it in order to be translate into Sympy's expression tree. Improving the user interface and ensuring that a broad variety of input is possible could be investigated
+    in a Master thesis.
+\end{document}

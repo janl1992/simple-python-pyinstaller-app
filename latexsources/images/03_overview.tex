@@ -1,0 +1,14 @@
+\resizebox{!}{43mm}{
+\begin{tikzpicture}[>=latex,line join=bevel,]
+    \node (node1) [draw,thick,minimum width=2cm,minimum height=1cm] {Parsed equation};
+    \node (node2) [draw,thick,minimum width=2cm,minimum height=1cm, above left= of node1] {Hashmap for elements};
+    \node (node3) [draw,thick,minimum width=2cm,minimum height=1cm, below left= of node1] {Hashmap for symbols};
+    \node (node4) [draw,thick,minimum width=2cm,minimum height=1cm, below left= of node2] {Inserted equation};
+    \node (node5) [draw,thick,minimum width=2cm,minimum height=1cm, right= of node1] {Reference equation};
+    \draw [->] (node4) -- (node2);
+    \draw [->] (node4) -- (node3);
+    \draw [->] (node3) -- (node1);
+    \draw [->] (node2) -- (node1);
+    \draw [<->] (node1) -- (node5);
+\end{tikzpicture}
+}

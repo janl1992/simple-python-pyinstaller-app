@@ -1,0 +1,20 @@
+\begin{lstlisting}[captionpos=b, caption={[Isabelle example] Here the following lemma add\char`_02 is validated: Adding zero to a natural number is equal to this number.
+    This is carried out by defining a recursive function in Line 6 - 8. The lemma "add\char`_02" which refers to this function is defined in line 10. The command "apply" instigates Isabelle to start a proof by induction on m. This can be seen in Line 11. In the next line, the command "apply(induction m)" instructs Isabelle to proove all subgoals automatically. }, label={isabelleexample}]
+        theory Scratch
+            imports Main
+        begin
+            datatype nat = 0 | Suc nat
+
+            fun add:: "nat => nat => nat" where
+                "add 0 n = n" |
+                "add(Suc m) n = Suc(add m n)"
+
+            lemma add_02: "add m 0 = m"
+                apply(induction m)
+                apply(auto)
+            done
+
+            thm add_02
+        end
+
+    \end{lstlisting}

@@ -1,0 +1,82 @@
+%!TEX root = ../report.tex
+
+\begin{document}
+    \chapter{Equation checking using finite random variables}
+    \label{bayestheoremfiniterandomvariables}
+    \begin{figure}[H]
+        \input{./images/04_probabilityInsideGrid}
+        \caption{Probability inside a grid}
+        \caption*{Fig.~\textit{source} \cite[p.13]{bishop2006pattern} Here the probability for two random variables can be seen. The number of points in row
+        $y$ illustrates the probability of $Y=y_{j}$. The number of points in column $i$ correspond to the probability of $X=x_{i}$.} \label{fig:Probability for two random variables}
+    \end{figure}
+    The idea of this approach is to search inside a string for patterns that match predefined axioms. These axioms are used as a starting point from which
+    to reason whether the mathematical transformation is valid or not. Fig.~\ref{fig:Probability for two random variables} provides ideas on how to derivate the axioms.
+    The finite random variable $X$ takes the value $x_{i}$ where $i$ can take values from $1,...,M$.
+    The number of points inside a column define the frequency of an event $x_{i}$.
+    The finite random variable $Y$ takes the value $y_{j}$ where $j$ can take values from $1,...,M$. The number of points inside a row defines the frequency of an event $y_{j}$.
+    The probability of finite random variable $X = x_{i}$ independent of finite random variable Y is the number of points in column $c_{i}$ divided by the total number of points $N$.
+    The probability of finite random variable $Y = y_{j}$ independent of finite random variable X, is the number of points in row $r_{j}$ divided by the total number of points $N$.
+    The probability of finite random variable $X = x_{i}$ and $Y = y_{j}$ appearing at the same time is the number of points in cell $n_{ij}$ divided by the total number of $N$.
+    The probability of finite random variable $X = x_{i}$ given $Y = y_{j}$ is the number of points in cell $n_{ij}$ divided by the number of points in row $r_{j}$. The probability
+    of finite random variable $Y = y_{j}$ given $X = x_{i}$ is the number of points in cell $n_{ij}$ divided by the number of points in column $c_{i}$.
+    The described axioms \cite[p.13 - 15]{bishop2006pattern} are shown in the following equations:
+    \begin{IEEEeqnarray*}{rCl}
+        P(S = s_{i}) = \frac{c_{i}}{N} \IEEEyesnumber \label{eq:1}  \\ \\
+        P(W=w_{j}) = \frac{r_{j}}{N} \IEEEyesnumber \label{eq:2}  \\ \\
+        P(W = w_{j}|S = s_{i}) = \frac{n_{ij}}{c_{i}} \IEEEyesnumber \label{eq:3} \\ \\
+        P(S = s_{i}|W = w_{j}) = \frac{n_{ij}}{r_{j}} \IEEEyesnumber \label{eq:4} \\ \\
+        P(S = s_{i}, W = w_{j}) = \frac{n_{ij}}{N} \IEEEyesnumber \label{eq:5} \\ \\
+        P(S,W) = P(W,S) \IEEEyesnumber \label{eq:6}
+    \end{IEEEeqnarray*}
+    Based on the above, the following two equations can be derived:
+    \begin{IEEEeqnarray*}{rCl}
+        P(S = s_{i}|W^{C} = w^{c}_{i}) = \frac{(1 -\frac{n_{ij}}{c_{i}})\frac{c_{i}}{N}}{1 - \frac{r_{j}}{N}} \text{ see Eq.}\eqref{eq:-2} \IEEEyesnumber \label{eq:7} \\ \\
+        P(W^{C} = w^{c}_{i}) = 1 - P(W) \IEEEyesnumber \label{eq:8}
+    \end{IEEEeqnarray*}
+    For switching between the two domains of probability and set theory the author uses the following definition\cite[p.~456]{rosen2012discrete}:
+    \begin{IEEEeqnarray*}{rCl}
+        P(S = s_{i}|W = w_{i})=\frac{p(S \cap W)}{P(W)} \IEEEyesnumber \label{eq:9}
+    \end{IEEEeqnarray*}
+    From this definition, the following two relations can be derived:
+    \begin{IEEEeqnarray*}{rCl}
+        P(S \cap W)=\frac{n_{ij}}{N}\text{ see Eq.~}\eqref{eq:-1} \IEEEyesnumber \label{eq:10} \\ \\
+        \frac{P (S \cap W^{C})}{P(W^{C})} = \frac{\frac{c_{i}}{N} - \frac{n_{ij}}{N}}{1 - \frac{r_{j}}{N}}\text{ see Eq.~}\eqref{eq:-3} \IEEEyesnumber \label{eq:11}
+    \end{IEEEeqnarray*}
+    In order to map the input to these axioms, the equation checker uses an extended version of the parse\char`_expr function (explained in \hyperref[latexparser]{Subsection Latex parser}).
+    To search and replace the axioms the author uses the data structure dictionary in which the regular expressions are defined as keys and the corresponding axioms as values.
+    With the help of these regular expressions the parser searches the axioms in an input string and replaces them with the corresponding value. An application
+    of the extended Latex parser can be seen in Fig.~\ref{fig:Application of dedicated extended Sympy parser}.
+    Due to this substitution, Sympy is able to simplify the equations (\eqref{eq:12} - \eqref{eq:16}) to $\frac{n_{ij}}{c_{i}}$. At this point, if the mathematical transformation is correct, the equation check (see \ref{equationcheck}) returns 0.
+    The overall process can be seen in Fig.~\ref{fig:Probability for two random variables using discrete probabilitites}.
+
+    \begin{IEEEeqnarray*}{rCl}
+        P(W|S)
+        &=&\frac{P(S|W)*P(W)}{P(S)} \IEEEyesnumber \label{eq:12} \\
+        & = & \frac{\frac{n_{ij}}{r_{j}} \cdot \frac{r_{j}}{N}}{\frac{c_{i}}{N}} \\
+        & = & \frac{n_{ij}}{c_{i}} \\ \\
+        P(W|S)
+        &=&\frac{P(S|W)*P(W)}{P(S|W)*P(W)+P(S|W^{C})*P(W^{C})} \IEEEyesnumber \label{eq:13} \\
+        & = & \frac{\frac{n_{ij}}{r_{j}} \cdot \frac{r_{j}}{N}}{\frac{n_{ij}}{r_{j}} \cdot \frac{r_{j}}{N}+\frac{(1 - \frac{n_{ij}}{c_{i}})*\frac{c_{i}}{N}}{1 - \frac{r_{j}}{N}}*(1 - \frac{r_{j}}{N})}\\
+        & = & \frac{n_{ij}}{c_{i}} \\ \\
+        P(W|S)
+        &=&\frac{\frac{P(S \cap W)}{P(W)}*P(W)}{\frac{P(S \cap W)}{P(W)}*P(W) + \frac{P(S \cap W^{C})}{P(W^{C})}*P(W^{C})} \IEEEyesnumber \label{eq:14} \\
+        & = & \frac{\frac{\frac{n_{ij}}{N}}{\frac{r_{j}}{N}}*\frac{r_{j}}{N}}{\frac{\frac{n_{ij}}{N}}{\frac{r_{j}}{N}}*\frac{r_{j}}{N} + \frac{\frac{c_{i}}{N} - \frac{n_{ij}}{N}}{1 - \frac{r_{j}}{N}}*(1 - \frac{r_{j}}{N})} \\
+        & = & \frac{n_{ij}}{c_{i}} \\ \\
+        P(W|S)
+        &=&\frac{\frac{P(S \cap W)}{P(W)}*P(W)}{\frac{P(S \cap W)}{P(W)}*P(W) + \frac{P(S \cap W^{C})}{P(W^{C})}*P(W^{C})} \IEEEyesnumber \label{eq:15} \\
+        & = & \frac{\frac{\frac{n_{ij}}{N}}{\frac{r_{j}}{N}}*\frac{r_{j}}{N}}{\frac{\frac{n_{ij}}{N}}{\frac{r_{j}}{N}}*\frac{r_{j}}{N} + \frac{\frac{c_{i}}{N} - \frac{n_{ij}}{N}}{1 - \frac{r_{j}}{N}}*(1 - \frac{r_{j}}{N})}\\
+        & = & \frac{n_{ij}}{c_{i}} \\ \\
+        P(W|S)
+        &=&\frac{P(S \cap W)}{P(S)} \IEEEyesnumber \label{eq:16} \\
+        & = & \frac{\frac{n}{N}}{\frac{n}{N}+\frac{c}{N} - \frac{n}{N}}\\
+        & = &\frac{n_{ij}}{c_{i}}
+    \end{IEEEeqnarray*}
+
+    \begin{figure}[H]
+        \input{./images/04_transformationRandomVariable}
+        \caption{Transformation of random variables into the Sympy expression tree}
+        \caption*{Here the transformation from input into discrete probabilities can be seen. This figure is nearly identical to Fig.~\ref{fig:Sympy expression tree with specific values}
+        except for the discrete probabilities.}
+        \label{fig:Probability for two random variables using discrete probabilitites}
+    \end{figure}
+\end{document}

@@ -1,0 +1,15 @@
+%!TEX root = ../report.tex
+
+\begin{document}
+\chapter{Introduction}
+    The number of students at university is steadily increasing, therefore grading assignments, and exams consumes more and more time.
+    One approach in computer science to tackle this problem is to use computer-assisted grading. Students code their assignments and exams in e.g., Jupyter notebook.
+    Writing assignments and exams in a digital form allows the examiner to grade them more quickly.\\ Mathematics is part of most study programs and a challeging field to automate
+    in the context of computer-assisted grading. At present, computer-assisted grading for mathematics usually involves validating a single result or validating multiple choice answers.
+    However when talking about automatic single value validation, computer-assisted grading systems nowadays only check
+    the final result, they do not check intermediate steps which take place before the final result. This becomes relevant when grading
+    a step-by-step proof, or a transformation of equations. Often the student does not submit the right solution, but nevertheless parts of their calculations are correct
+    - some points should be awarded for these correct steps. \newpage Here the following question arises: What can be defined as a proof in the context of this project? An example of step-by-step
+    proof from the domain of probability theory shows the following equations. The proof uses a set of known transformations (e.g., Bayes theorem is given in Eq.~\eqref{eq:0}) to transform one side into the other.
+    \input{./images/01_inputExampleStepByStepProof}
+\end{document}

@@ -1,0 +1,85 @@
+\resizebox{!}{101mm}{
+\begin{tikzpicture}[every node/.style={anchor=base,text depth=0.5ex,text height=1ex,text width=5em}, text centered]
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=18mm}, column sep=-\pgflinewidth, ampersand replacement=\&]{
+    $\scriptscriptstyle P(A)*P(B)$ \& $\times$ \\ $\times$ \& $\times$\\};
+    %         \draw [{Stealth}-] (A-1-1.east)--++(-180:5mm) (A-1-2);
+    \begin{scope}[node distance=.5mm and .5mm]
+        \node [left=of A-1-1] (NA) {$A$};
+        \node [left=of A-2-1] (NCA) {$\bar{A}$};
+        \node [above=of A-1-1] (NB) {$B$};
+        \node [above=of A-1-2] (NCB) {$\bar{B}$};
+        \node [right=of A-1-2] (NPA) {$P(A)$};
+        \node [right=of A-2-2] (NPBA) {$P(\bar{A})$};
+    \end{scope}
+    \begin{scope}[node distance=3mm and 3mm]
+        \node [below=of A-2-1] (NPB) {$P(B)$};
+        \node [below=of A-2-2] (NCBB) {$P(\bar{B})$};
+    \end{scope}
+    \begin{scope}[node distance=.8mm and .8mm]
+        \node [above right=of A-1-2] (NPA) {$\sum$};
+    \end{scope}
+    \path [-{Stealth} ] (A-2-1.south east)--++(-90:10mm) node (NamenodeA) [below] {Table $A$};
+    \begin{scope}[node distance=40mm and 40mm]
+        \matrix (B) [matrix of nodes, nodes={draw, minimum size=18mm}, column sep=-\pgflinewidth, right=of A, ampersand replacement=\&]{
+        $\times$ \& $\scriptscriptstyle P(A)*P(B^{C})$ \\ $\times$ \& $\times$ \\};
+    \end{scope}
+    \begin{scope}[node distance=.5mm and .5mm]
+        \node [left=of B-1-1] (NA) {$A$};
+        \node [left=of B-2-1] (NCA) {$\bar{A}$};
+        \node [above=of B-1-1] (NB) {$B$};
+        \node [above=of B-1-2] (NCB) {$\bar{B}$};
+        \node [right=of B-1-2] (NPA) {$P(A)$};
+        \node [right=of B-2-2] (NPBA) {$P(\bar{A})$};
+    \end{scope}
+    \begin{scope}[node distance=3mm and 3mm]
+        \node [below=of B-2-1] (NPB) {$P(B)$};
+        \node [below=of B-2-2] (NCBB) {$P(\bar{B})$};
+    \end{scope}
+    \path [-{Stealth} ] (B-2-1.south east)--++(-90:10mm) node (NamenodeB) [below] {Table $B$};
+
+    \begin{scope}[node distance=.8mm and .8mm]
+        \node [above right=of B-1-2] (NPA) {$\sum$};
+    \end{scope}
+    \begin{scope}[node distance=30mm and 30mm]
+        \matrix (C) [matrix of nodes, nodes={draw, minimum size=18mm}, column sep=-\pgflinewidth, below=of A, ampersand replacement=\&]{
+        $\times$ \& $\times$ \\ $\scriptscriptstyle P(A^{C})*P(B)$ \& $\times$ \\};
+    \end{scope}
+    \begin{scope}[node distance=.5mm and .5mm]
+        \node [left=of C-1-1] (NA) {$A$};
+        \node [above=of C-1-2] (NCB) {$\bar{B}$};
+        \node [left=of C-2-1] (NCA) {$\bar{A}$};
+        \node [above=of C-1-1] (NB) {$B$};
+        \node [right=of C-1-2] (NPA) {$P(A)$};
+        \node [right=of C-2-2] (NPBA) {$P(\bar{A})$};
+    \end{scope}
+    \begin{scope}[node distance=3mm and 3mm]
+        \node [below=of C-2-1] (NPB) {$P(B)$};
+        \node [below=of C-2-2] (NCBB) {$P(\bar{B})$};
+    \end{scope}
+    \begin{scope}[node distance=.8mm and .8mm]
+        \node [above right=of C-1-2] (NPA) {$\sum$};
+    \end{scope}
+    \path [-{Stealth} ] (C-2-1.south east)--++(-90:10mm) node (NamenodeC) [below] {Table $C$};
+    \begin{scope}[node distance=30mm and 30mm]
+        \matrix (D) [matrix of nodes, nodes={draw, minimum size=18mm}, column sep=-\pgflinewidth, below=of B, ampersand replacement=\&]{
+        $\times$ \& $\times$ \\ $\times$ \& $\scriptscriptstyle P(A^{C})*P(B^{C})$ \\};
+    \end{scope}
+    \begin{scope}[node distance=.5mm and .5mm]
+        \node [left=of D-1-1] (NA) {$A$};
+        \node [above=of D-1-2] (NCB) {$\bar{B}$};
+        \node [left=of D-2-1] (NCA) {$\bar{A}$};
+        \node [above=of D-1-1] (NB) {$B$};
+        \node [right=of D-1-2] (NPA) {$P(A)$};
+        \node [right=of D-2-2] (NPBA) {$P(\bar{A})$};
+    \end{scope}
+    \begin{scope}[node distance=3mm and 3mm]
+        \node [below=of D-2-1] (NPB) {$P(B)$};
+        \node [below=of D-2-2] (NCBB) {$P(\bar{B})$};
+    \end{scope}
+    \begin{scope}[node distance=.8mm and .8mm]
+        \node [above right=of D-1-2] (NPA) {$\sum$};
+    \end{scope}
+    \path [-{Stealth} ] (D-2-1.south east)--++(-90:10mm) node (NamenodeD) [below] {Table $D$};
+
+\end{tikzpicture}
+}

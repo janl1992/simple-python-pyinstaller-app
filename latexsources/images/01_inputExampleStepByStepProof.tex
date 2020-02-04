@@ -1,0 +1,9 @@
+\begin{IEEEeqnarray*}{rCl}
+    P(W|S)
+    &=& \frac{P(S|W) P(W)}{P(S)} \\ \\
+    & = & \frac{P(S|W)P(W)}{P(S|W)P(W)+P(S|W^{c})P(W^{c})} \\ \\
+    & = & \frac{\frac{P(S \cap W)}{P(W)}P(W)}{\frac{P(S \cap W)}{P(W)}P(W) + \frac{P(S \cap W^{c})}{P(W^{c})}P(W^{c})} \IEEEyesnumber \label{eq:0} \\ \\
+    & = & \frac{P(S \cap W)}{P(S \cap W)+P(S \cap W^{c})} \\ \\
+    & = & \frac{P(S \cap W)}{P(S)} \\ \\
+    & = & P(W|S)
+\end{IEEEeqnarray*}

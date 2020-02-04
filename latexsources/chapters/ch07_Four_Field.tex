@@ -1,0 +1,56 @@
+%!TEX root = ../report.tex
+\begin{document}
+    \chapter{Equation checker for contingency table}
+    Until now every approach discussed in the previous chapters has focused on one specific class of mathematical proof. This limits the number of different assignments which can be graded automatically .
+    In order to provide a variety of assignments, the author uses a contingency table where one random variable is independent of the other random variable (see Fig.~\ref{fig:FourFieldGraphic}). This constraint
+    can be formalized as follows:
+    \begin{IEEEeqnarray*}{rCl}
+        P(A \cap B)&=&P(A)P(B) \label{eq:25}
+    \end{IEEEeqnarray*}
+    Due to this it is possible to show that, based on one field the random variables in all adjacent fields are also independent. The following two
+    examples demonstrate this:
+    \begin{IEEEeqnarray*}{rCl}
+        $\text{Given: }$P(A \cap B)&=&P(A)P(B)$$\\
+        P(A)&=&P(A \cap B) + P(A \cap B^{C}) \\
+        \iff P(A) - P(A \cap B)&=&P(A \cap B^{C}) \IEEEyesnumber \label{eq:26} \\
+        \iff P(A) - P(A)P(B)&=&P(A \cap B^{C}) \\
+        \iff P(A)(1 - P(B))&=&P(A \cap B^{C}) \\
+        \iff P(A)P(B^{C})&=&P(A \cap B^{C})
+    \end{IEEEeqnarray*}
+    \begin{IEEEeqnarray*}{rCl}
+        $\text{Given: }$P(A^{C} \cap B)&=&P(A^{C})P(B)$$\\
+        P(A^{C})&=&P(A^{C} \cap B) + P(A^{C} \cap B^{C}) \\
+        \iff P(A^{C}) - P(A^{C} \cap B)&=&P(A^{C} \cap B^{C}) \IEEEyesnumber \label{eq:27} \\
+        \iff P(A^{C}) - P(A^{C})P(B)&=&P(A^{C} \cap B^{C}) \\
+        \iff P(A^{C})(1 - P(B))&=&P(A^{C} \cap B^{C}) \\
+        \iff P(A^{C})P(B^{C})&=&P(A^{C} \cap B^{C})
+    \end{IEEEeqnarray*}
+    As can be seen in these two equations firstly comparing the initial equation with the equation of interest (see \ref{fig:CheckArray}), then simplifying them and checking whether the difference
+    between them is equal to zero, does not produce the desired result here. This is due to the equivalence transformations, which are used in Eq.~\eqref{eq:26} and \eqref{eq:27}. Drawing a comparison with
+    the initial equation would only return a valid check during the first check (in Eq.~\eqref{eq:27} this would be $P(A^{C}) = P(A^{C} \cap B) + P(A^{C} \cap B^{C})$). After
+    the first equivalence transformation the equation of interest is no longer equal to the initial equation (compare in Eq.~\eqref{eq:27} the third line $P(A^{C} \cap B^{C}) \neq P(A^{C})$).
+    Therefore the equation check was carried out line by line. The equation checker validates whether two equations are equal for each line. There is no overall check
+    for equality between two line and could be a topic for further research. In order to implement this, the equation checker extracts the random variables, generates
+    discrete probabilities and then compares this equation to the equation in the same line using simplify. The overall algorithm can be seen in Fig.~\ref{fig:FourFieldGraphic}.
+
+    \begin{figure}
+        \input{./images/07_contingencyTables.tex}
+        \caption{Contingency tables}
+        \caption*{This figure shows a contigency table with the constraint $P(A \cap B) = P(A)P(B)$.
+        One field demonstrates the probability that two independent events happen at the same time.
+        Due to the constraint that the random variables are independent of each other, it is possible to show that the random variables in
+        all adjacent fields are also independent. $\times$ illustrates all the possibilities to reach the conclusion that the random variables in the adjacent fields are independent.
+        This can be carried out 12 times (there are 4 fields, in each of which 3 derivations are possible). In this way
+        a variety of assignments can be created.}
+        \label{fig:FourFieldGraphic}
+    \end{figure}
+
+    \begin{figure}
+        \input{./images/07_transformationFourFieldIntoExpressionTree.tex}
+        \caption{Transformation of a four field equation into the Sympy expression tree}
+        \caption*{In this figure the mapping from the inserted equation to the Sympy expression tree for the first step of Eq.~\eqref{eq:27} is shown. The condition $P(A \cap B) = P(A)P(B)$ is stored within the hashmap.
+        Both expressions are mapped on to the same discrete probability $\frac{r_{1}}{N}*\frac{r_{2}}{N}$.}
+        \label{fig:transformationfourfig}
+    \end{figure}
+
+\end{document}

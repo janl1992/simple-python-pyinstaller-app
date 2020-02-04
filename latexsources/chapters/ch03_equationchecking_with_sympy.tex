@@ -1,0 +1,92 @@
+%!TEX root = ../report.tex
+
+\begin{document}
+    \chapter{Equation checking with Sympy}
+        $\ast$ reference to the Sympy documentation \url{https://docs.sympy.org/1.5.1/} \\ \\
+        For equation checking, Sympy does not provide an out of the box feature. Therefore it is necessary to assemble the equation checker from different components of Sympy:
+        \begin{itemize}
+            \item 'Simplify' takes care of checking the equality of two $\text{equations}^{\ast}$.
+            \item For creating a Finite Random $\text{Variable}^{\ast}$ representing a fair six-sided Die the author uses the 'Die' function from the stats $\text{package}^{\ast}$.
+            \item Switching between the Probability domain and the Set domain the author uses the 'where' $\text{function}^{\ast}$ and the 'set' $\text{function}^{\ast}$ from the stats package
+        \end{itemize}
+        When implementing the equation checker, one challenge is to check the equality between two equations. According to the Sympy documentation, the best way to check the
+        equality is to subtract the two equations, simplify it using the simplify method and then to check for $\text{zero}^{\ast}$(see Listing \ref{equationcheck}).
+        When checking for the equality of two sets, it is favorable to subtract the two sets from each other and check whether the result forms the Empty Set(see Listing \ref{checkforemptyset}).
+        As can be seen from Eq.~\eqref{eq:0} the equality check depends on the mathematical domain in which the equations operate. \\ When checking equality between two
+        equations, the question is how the equation checker obtains the input from the student and how it stores this input. The answer here is to store the input inside a one-dimensional array. The procedure to
+        check the equality between two mathematical equations is as follows:
+        \begin{enumerate}
+            \item The student enters a new equation into the grid (see Fig.~\ref{fig:GridWithSolution})
+            \item The new input maps into the two-dimensional array $A$ at postition $x$
+            \item Comparing the new entry $A(x)$ and the initial equation (see Fig.~\ref{fig:CheckArray})
+            \item If the comparison returns true, the algorithm marks the mathematical transformation as correct. If not, the transformation is marked as incorrect.
+        \end{enumerate}
+        \section{First approach for equation checking}
+        However some preparation is necessary before this initial step. Firstly the finite random variable needs to be created for the comparison. This comparison to validate the mathematical transformation
+        operates with two finite random variable S and W. Two steps are necessary here to create the two finite random variable, S and W. Initially a random symbol
+        using one of the built-in Sympy functions for creating a finite random variable is created. In this case, this is the Sympy function 'Die',
+        which provides a fair six-sided $\text{Die}^{\ast}$(see Listing \ref{randomsymbol}).
+        After that the random symbols are passed on to to create two finite random variable in Sympy format(see Listing \ref{finiterandomvariable}).
+        The input from the student is mapped to these two finite random variable $S$ and $W$ during the comparison. At this point, Sympy proceesses the input further (This is discussed later in this chapter).
+        Using finite random variable in the Sympy format has two advantages. When switching between the domain of probability and set theory, Sympy offers a useful transformation for
+        finite random variable. The function 'where', combined with the function set used on a finite random variable returns the set of a finite random variable (see Listing \ref{finiterandomvariable})
+        Another advantage when using finite random variable is that there is an attribute on the finite random variable, which allows the relationship of the finite random variable to be negated.
+        So the relation $X > 3$ of $W$ is turned into $X <= 3$. Negating the relationship of the finite random variable in combination
+        with the 'where' function and the 'set' function provides us with the complement of the current set. This can be seen in Listing \ref{wherefunction}.
+        Another prerequisite for the equation checker to work properly is to provide both a local dictionary and a global dictionary. Using the local and global dictionary allows
+        Sympy to translate a Latex string or a Latex string fragment into a string the Sympy parser can handle. The global dictionary describes which char sequence maps on which
+        Sympy $\text{operation}^{\ast}$(see Listing \ref{globaldict}):
+        When parsing a string, the Sympy parser draws on the global dictionary global\char`_dict which tells Sympy that the char P maps on Sympy's probability and that
+        the char sequence 'Mul' maps on Sympy's multiplication function. The local dictionary tells Sympy on to which predefined Sympy variables a char maps(see Listing \ref{localdict}).\\
+        By now, when taking a digital exam, students create a Latex document using Jupyter notebooks.\\
+        Due to the requirement that the equation checker must integrate easily into the architecture, it is of an advantage that the input format of the equation is in Latex.
+        Sympy provides a component for parsing Latex equations in Sympy equations - the latex2sympy component.
+        Unfortunately this parser is only able
+        to parse a subset of Latex to Sympy which does not include Sets $^{\ast}$. Therefore the Latex input should be transformed into a Sympy string and the standard
+        parser of Sympy should be used for parsing the transformed string.
+        \section{Latex Parser}
+        \label{latexparser}
+        As the student enters a new equation in Latex, the input is initially transformed into Sympy format.
+        In this way the Latex string $"\textbackslash{frac}\{P(S|W)*P(W)\}\{P(S)\}"$ is translated into the Sympy string $"(P(S,W)*P(W))/(P(S))"$ before passing it to the
+        parse\char`_expr operation. For translating Latex into Sympy, the equation checker uses its own function. This function replaces Latex chars with Sympy chars (e.g.,
+        standard brackets \textbf{(} replaces curly brackets \textbf{$\{$} ). In this way, the function draws on predefined chars to search for so creating a dictionary which contains
+        string patterns as keys. The function searches the string with the help from the keys of the dictionary.
+        It replaces the matches with the help of the corresponding values of the keys. In Table \ref{Mapping of chars} some examples are provided to get a better understanding of this.
+        The input is shwon on the left side and the output on the right side.
+        In Fig.~\ref{fig:Application of dedicated Sympy parser} an application of these translations onto a string can be seen. Here the input is in the first line and the output is in the second line.
+        The function parse\char`_expr takes the translated string and translates it with the help of the local dictionary and the global dictionary
+        into the internal Sympy expression tree, shown in Fig.~\ref{fig:Sympy expression tree with specific values}.
+        \begin{figure}[h]
+            \begin{center}
+                \[\textbackslash frac\,\{P(S|W)*P(W)\}\{P(S|W)*P(W)+P(S|W\textasciicircum\{C\})*P(W\textasciicircum\{C\})\}\]
+                \[\rightarrow (P(S,W)*P(W))/(P(S,W)*P(W)+P(S,\textasciitilde W)*P(\textasciitilde W))\]
+            \end{center}
+            \caption{Latex parser}
+            \caption*{Here the Latex parser can be seen. It takes the Latex string as input and generates an output that Sympy can parse using a hashmap which contains
+            the corresponding symbols.} \label{fig:Application of dedicated Sympy parser}
+        \end{figure}
+
+        \section{Incorrectness of first approach}
+        As can be deduced from the expression tree (see Fig.~\ref{fig:Sympy expression tree with specific values}), the problem with the approach described here is that the equation checker guarantees the correctness of the proof only for the finite random
+        variable of a six-sided Die.
+        Introducing the six-sided Die allowed a Random Symbol to be created based on the Die.
+        Sets are created based on the Random Symbol in order to easily create the complement of the specific given set (which is not possible when using the
+        Universal Set). However, to guarantee the correctness, the equation checker must validate the proof for any finite random variable.
+        Therefor another approach is necessary.
+        \begin{figure}[h]
+            \input{./images/03_overview.tex}
+            \caption{Overall algorithm}
+            \caption*{Here the entire process which is described in this chapter can be seen. The inserted equation is processed by using two hashmaps. 'Hashmap for elements' stores the mapping for the random variables.
+            'Hashmap for symbols' stores the mapping for Sympy symbols. They are used in order to translate the inserted equation into an equation Sympy is able to handle (the 'Parsed equation'). This equation is compared
+            with the reference equation for validating whether the mathematical transformation was correct or not.}
+        \end{figure}
+        \begin{figure}[h]
+            \centering
+            \input{./images/03_transformationFairSixsidedDie.tex}
+            \caption{Transformation of a fair six sided die into the Sympy expression tree}
+            \caption*{Here the entire process of creating a Sympy expression tree can be seen. The inserted equation is transformed into an equation which consists of factors that Sympy can assign to concrete values via the hashmap. This
+            can be parsed using the 'parse\char`_equation' function of Sympy. Following this, Sympy can simplify this parsed equation in order to check whether it is equal or not to other equations. The conditional probability $P(S|W)$ is mapped to $P(S,W)$ because
+            of the Sympy's syntax to process conditional probabilities. $S,W$ are finite random variables, $P(S,W)$ calculates the probability of $S$ given $W^{\ast}$.}
+            \label{fig:Sympy expression tree with specific values}
+        \end{figure}
+\end{document}

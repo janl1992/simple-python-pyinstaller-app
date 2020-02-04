@@ -1,0 +1,75 @@
+\begin{center}
+    \begin{tikzpicture}[>=latex,line join=bevel,]
+        \matrix (A) [matrix of nodes, nodes={draw, minimum size=18mm}, column sep=-\pgflinewidth]{
+        $P(A):\frac{n_{1}}{N}$ & $P(B):\frac{n_{2}}{N}$ & $P(A \cap B):\frac{n_{3}}{N}$ & $P(B \cap A):\frac{n_{3}}{N}$\\};
+        \begin{scope}[node distance=3mm and 11mm]
+            \draw [{Stealth}-] (A-1-1.north)--++(90:5mm) node (PA) [above] {$P(A)$};
+            \draw [-{Stealth}] (A-1-1.south)--++(-90:5mm) node (PNZ)[below] {$\frac{n_{1}}{N}$};
+            \path [] (A-1-1.north east)--++(90:5mm) node(plusone)[above] {$+$};
+            \path [] (A-1-1.south east)--++(-90:5mm) node[below] {$+$};
+            \draw [{Stealth}-] (A-1-2.north)--++(90:5mm) node[above] {$P(B)$};
+            \draw [-{Stealth}] (A-1-2.south)--++(-90:5mm) node(PAO)[below] {$\frac{n_{2}}{N}$};
+            \path [] (A-1-2.north east)--++(90:5mm) node[above] {$-$};
+            \draw [{Stealth}-] (A-1-3.north)--++(90:5mm) node[above] {$P(A \cap B)$};
+            \path [] (A-1-3.south west)--++(-90:5mm) node[below] {$-$};
+            \draw [-{Stealth}] (A-1-3.south)--++(-90:5mm) node(PBO)[below] {$\frac{n_{3}}{N}$};
+            \node [left=of PA] (none) {Entered equation};
+            \node [left=of A] (none) {Hashmap};
+            \node [left=of PNZ] (ME) {Mapped equation};
+            \begin{scope}[node distance=10mm and 11mm]
+                \node [below=of ME] (none) {Transformation};
+            \end{scope}
+            \begin{scope}[node distance=15mm and 11mm]
+                \node [below=of PAO] (PAO1){};
+                \draw[->] (PAO) -- (PAO1);
+                \draw[->] (PNZ) -- (PAO1);
+                \draw[->] (PBO) -- (PAO1);
+            \end{scope}
+            %                \matrix (B) [matrix of nodes, nodes={draw, minimum size=18mm}, column sep=-\pgflinewidth, below=of PAO]{
+            %                $n_{0}:S(n_{0})$ & $n_{1}:S(n_{1})$ & $n_{2}:S(n_{2})$\\};
+            %                \draw [{Stealth}-] (B-1-1.north)--++(90:5mm) (PNZ);
+            %                \draw [{Stealth}-] (B-1-2.north)--++(90:5mm) (PAO);
+            %                \draw [{Stealth}-] (B-1-3.north)--++(90:5mm) (PBO);
+        \end{scope}
+    \end{tikzpicture}
+\end{center}
+\hspace{75pt}
+\begin{tikzpicture}[>=latex,line join=bevel,]
+    %%
+    \node (Add{Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}+ Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}}_{}) at (134.5bp,232.0bp) [draw=black,ellipse] {Add};
+    \node (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}_{0+}) at (61.5bp,176.0bp) [draw=black,ellipse] {Mul};
+    \node (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}_{1+}) at (134.5bp,176.0bp) [draw=black,ellipse] {Mul};
+    \node (Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}_{2+}) at (206.5bp,176.0bp) [draw=black,ellipse] {Mul};
+    \node (Symbol{n1}_{0+ 0}) at (12.5bp,120.0bp) [draw=black,ellipse] {n1};
+    \node (Pow{Symbol{N}+ NegativeOne{}}_{0+ 1}) at (61.5bp,120.0bp) [draw=black,ellipse] {Pow};
+    \node (Symbol{N}_{0+ 1+ 0}) at (46.5bp,64.5bp) [draw=black,ellipse] {N};
+    \node (NegativeOne{}_{0+ 1+ 1}) at (85.5bp,64.5bp) [draw=black,ellipse] {-1};
+    \node (Symbol{n2}_{1+ 0}) at (110.5bp,120.0bp) [draw=black,ellipse] {n2};
+    \node (Pow{Symbol{N}+ NegativeOne{}}_{1+ 1}) at (159.5bp,120.0bp) [draw=black,ellipse] {Pow};
+    \node (Symbol{N}_{1+ 1+ 0}) at (135.5bp,64.5bp) [draw=black,ellipse] {N};
+    \node (NegativeOne{}_{1+ 1+ 1}) at (174.5bp,64.5bp) [draw=black,ellipse] {-1};
+    \node (NegativeOne{}_{2+ 0}) at (206.5bp,120.0bp) [draw=black,ellipse] {-1};
+    \node (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}_{2+ 1}) at (252.5bp,120.0bp) [draw=black,ellipse] {Mul};
+    \node (Symbol{n3}_{2+ 1+ 0}) at (217.5bp,64.5bp) [draw=black,ellipse] {n3};
+    \node (Pow{Symbol{N}+ NegativeOne{}}_{2+ 1+ 1}) at (266.5bp,64.5bp) [draw=black,ellipse] {Pow};
+    \node (Symbol{N}_{2+ 1+ 1+ 0}) at (246.5bp,9.5bp) [draw=black,ellipse] {N};
+    \node (NegativeOne{}_{2+ 1+ 1+ 1}) at (285.5bp,9.5bp) [draw=black,ellipse] {-1};
+    \draw [->] (Add{Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}+ Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}}_{}) ..controls (112.41bp,215.05bp) and (94.365bp,201.21bp)  .. (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}_{0+});
+    \draw [->] (Add{Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}+ Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}}_{}) ..controls (134.5bp,214.91bp) and (134.5bp,205.17bp)  .. (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}_{1+});
+    \draw [->] (Add{Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}+ Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}}_{}) ..controls (156.29bp,215.05bp) and (174.09bp,201.21bp)  .. (Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}_{2+});
+    \draw [->] (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}_{0+}) ..controls (46.272bp,158.6bp) and (35.132bp,145.86bp)  .. (Symbol{n1}_{0+ 0});
+    \draw [->] (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n1}}_{0+}) ..controls (61.5bp,158.73bp) and (61.5bp,148.68bp)  .. (Pow{Symbol{N}+ NegativeOne{}}_{0+ 1});
+    \draw [->] (Pow{Symbol{N}+ NegativeOne{}}_{0+ 1}) ..controls (56.961bp,103.21bp) and (54.12bp,92.694bp)  .. (Symbol{N}_{0+ 1+ 0});
+    \draw [->] (Pow{Symbol{N}+ NegativeOne{}}_{0+ 1}) ..controls (68.871bp,102.95bp) and (73.619bp,91.975bp)  .. (NegativeOne{}_{0+ 1+ 1});
+    \draw [->] (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}_{1+}) ..controls (127.05bp,158.61bp) and (122.39bp,147.75bp)  .. (Symbol{n2}_{1+ 0});
+    \draw [->] (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n2}}_{1+}) ..controls (142.27bp,158.61bp) and (147.11bp,147.75bp)  .. (Pow{Symbol{N}+ NegativeOne{}}_{1+ 1});
+    \draw [->] (Pow{Symbol{N}+ NegativeOne{}}_{1+ 1}) ..controls (152.13bp,102.95bp) and (147.38bp,91.975bp)  .. (Symbol{N}_{1+ 1+ 0});
+    \draw [->] (Pow{Symbol{N}+ NegativeOne{}}_{1+ 1}) ..controls (164.04bp,103.21bp) and (166.88bp,92.694bp)  .. (NegativeOne{}_{1+ 1+ 1});
+    \draw [->] (Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}_{2+}) ..controls (206.5bp,158.73bp) and (206.5bp,148.68bp)  .. (NegativeOne{}_{2+ 0});
+    \draw [->] (Mul{NegativeOne{}+ Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}}_{2+}) ..controls (220.73bp,158.68bp) and (230.52bp,146.76bp)  .. (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}_{2+ 1});
+    \draw [->] (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}_{2+ 1}) ..controls (241.65bp,102.79bp) and (234.53bp,91.506bp)  .. (Symbol{n3}_{2+ 1+ 0});
+    \draw [->] (Mul{Pow{Symbol{N}+ NegativeOne{}}+ Symbol{n3}}_{2+ 1}) ..controls (256.84bp,102.81bp) and (259.39bp,92.705bp)  .. (Pow{Symbol{N}+ NegativeOne{}}_{2+ 1+ 1});
+    \draw [->] (Pow{Symbol{N}+ NegativeOne{}}_{2+ 1+ 1}) ..controls (260.35bp,47.576bp) and (256.58bp,37.211bp)  .. (Symbol{N}_{2+ 1+ 1+ 0});
+    \draw [->] (Pow{Symbol{N}+ NegativeOne{}}_{2+ 1+ 1}) ..controls (272.35bp,47.576bp) and (275.93bp,37.211bp)  .. (NegativeOne{}_{2+ 1+ 1+ 1});
+    %
+\end{tikzpicture}

@@ -1,11 +1,11 @@
 pipeline {
     agent any
-    stage('Build Latex') {
+    stages {
+        stage('Build Latex') {
             steps {
                 sh "docker run --rm -v ${env.WORKSPACE}/latexsources:${env.WORKSPACE}/latexsources -w ${env.WORKSPACE}/latexsources janl92/latexbuilder:1 make document"
             }
         }
-    stages {
         stage('Build') {
             steps {
                 sh "docker run --rm -v ${env.WORKSPACE}:${env.WORKSPACE} -w ${env.WORKSPACE} python:3-alpine python -m py_compile sources/add2vals.py sources/calc.py"

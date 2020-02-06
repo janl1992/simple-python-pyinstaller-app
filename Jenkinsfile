@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build Latex') {
             steps {
-                sh "docker run --rm -v ${env.WORKSPACE}/latexsources:${env.WORKSPACE}/latexsources -w ${env.WORKSPACE}/latexsources janl92/latexbuilder:1 make document"
+                sh "docker run --rm -v ${env.WORKSPACE}/latexsources:${env.WORKSPACE}/latexsources -w ${env.WORKSPACE}/latexsources janl92/latexbuilder:latest make document"
             }
         }
         stage('Build') {

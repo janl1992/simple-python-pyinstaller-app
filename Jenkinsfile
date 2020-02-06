@@ -27,7 +27,8 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'sources/dist/add2vals', artifacts: 'latexsources/*pdf'
+                    archiveArtifacts artifacts: 'sources/dist/add2vals'
+                    archiveArtifacts artifacts: 'latexsources/*pdf'
                 }
             }
          }
